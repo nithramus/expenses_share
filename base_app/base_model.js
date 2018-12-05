@@ -26,9 +26,9 @@ class baseModel {
 
     static async getGroups(user_id_list) {
         console.log({user_id_list})
-        const group = await knex.raw(`SELECT * FROM groups WHERE groups.size = (SELECT COUNT(id) FROM groups_users WHERE groups_users.group_id = groups.id AND groups_users.user_id IN (${user_id_list}))`);
+        const group = await knex.raw(`SELECT id FROM groups WHERE groups.size = (SELECT COUNT(id) FROM groups_users WHERE groups_users.group_id = groups.id AND groups_users.user_id IN (${user_id_list}))`);
         console.log({group});
-        if (group && group[0].length === 0) return [];
+        if (group && group[0].length === 0) return null;
         return group[0][0].id;
     }
 
@@ -44,8 +44,9 @@ class baseModel {
 
     static async getExpenses(user_id) {
         const expenses = await knex('expenses')
-            .innerJoin('groups_users', 'groups_users.id', 'expenses.group_id')
+            .innerJoin('groups_users', 'groups_users.group_id', 'expenses.group_id')
             .where('groups_users.user_id', user_id);
+        console.log(expenses);
         return expenses;
     }
     
@@ -65,6 +66,9 @@ class baseModel {
         });
     }
 
+    static async getMyGroups(user_id) {
+        const groups = await knex('groups_users').innerJoin() 
+    }
 }
 
 module.exports = baseModel;

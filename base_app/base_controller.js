@@ -34,11 +34,8 @@ class baseController {
         if (!user_id_list.includes(req.session.user.id)) {
             user_id_list.push(req.session.user.id);
         }
-        let group = await baseModel.getGroups(user_id_list);
-        console.log(group);
-        let group_id = (group.length === 1) ? group[0] : null;
-        if (group.length === 0) {
-            console.log('creation du group')
+        let group_id = await baseModel.getGroups(user_id_list);
+        if (group_id === 0) {
             group_id = await baseModel.newGroup(user_id_list.length)
             for (let i = 0; i < user_id_list.length; i++) {
                 await baseModel.newGroupsUsers(group_id, user_id_list[i]);
