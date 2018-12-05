@@ -5,6 +5,8 @@ const fileUpload = require('express-fileupload');
 const RedisStore = require('connect-redis')(session);
 require('express-async-errors');
 
+const baseRouter = require('./base_app/base_routes');
+
 const app = express();
 app.disable('x-powered-by');
 // app.use(express.static('./static'));
@@ -20,9 +22,9 @@ app.use(session({
 }));
 
 
-app.use(usersMiddleware.isLogged);
-
-app.routes
+// app.use(usersMiddleware.isLogged);
+app.use('/', baseRouter);
+// app.routes
 app.use(async(err, req, res, next) => {
     console.error(err.stack);
     console.error(err.message);

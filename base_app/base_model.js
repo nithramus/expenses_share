@@ -17,22 +17,28 @@ class baseModel {
     }
 
     static async searchUsers(username) {
-        const users = await knex('users').where("username", "LIKE", `%${username}%`).limit(20);
+        const users = await knex('users')
+            .where("username", "LIKE", `%${username}%`)
+            .limit(20)
+            .select(['id', 'username']);
         return users;
     }
 
     static async getGroups(user_id_list) {
-        const group = await knex.raw(`SELECT * FROM groups WHERE EXIST (SELECT * FROM groups_users WHERE groups_users.group_id = groups.id WHERE groups_users.user_id IN (${user_id_list})`);
-        return group;
+        console.log({user_id_list})
+        const group = await knex.raw(`SELECT * FROM groups WHERE groups.size = (SELECT COUNT(id) FROM groups_users WHERE groups_users.group_id = groups.id AND groups_users.user_id IN (${user_id_list}))`);
+        console.log({group});
+        if (group && group[0].length === 0) return [];
+        return group[0][0].id;
     }
 
-    static async newExpense(creator, amount, group, about, created_ad = knex.now()) {
+    static async newExpense(spender_id, amount, group_id, about, created_at = knex.fn.now()) {
         await knex('expenses').insert({
-            creator,
+            spender_id,
             amount,
-            group,
+            group_id,
             about,
-            created_ad
+            created_at
         });
     }
 
@@ -44,9 +50,11 @@ class baseModel {
     }
     
     static async newGroup(size) {
-        await knex('groups').insert({
+        const id = await knex('groups').insert({
             size
         }).returning('id');
+        console.log({ id });
+        return id[0];
     }
 
 

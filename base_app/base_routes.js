@@ -19,3 +19,5 @@ router.get('/search/users', baseAppController.searchUsers);
 
 // get groups
 router.get('/groups', baseAppController.getGroups);
+
+module.exports = router;
