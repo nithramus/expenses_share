@@ -18,7 +18,7 @@
     "start42": "export $(cat .env-dev | xargs) && ./node_modules/nodemon/bin/nodemon.js index.js",
     "kill_doc": "pkill -f 'node ./doc/doc.js'",
     "start_doc": "nohup node ./doc/doc.js > doc/doc_log.out &",
-    "generate_doc": "apidoc -i users/ -i rooms/ -i pings/ -i comments/ -o ./doc/static",
+    "generate_doc": "apidoc -i base_app/ -o ./doc/static",
     "launch_doc": "npm run kill_doc && npm run generate_doc && npm run start_doc",
     "killOld": "pkill -f 'node index.js'",
     "launchNew": "export $(cat .env-prod | xargs) &&  nohup node index.js &",

@@ -35,7 +35,7 @@ class baseController {
             user_id_list.push(req.session.user.id);
         }
         let group_id = await baseModel.getGroups(user_id_list);
-        if (group_id === 0) {
+        if (group_id === null) {
             group_id = await baseModel.newGroup(user_id_list.length)
             for (let i = 0; i < user_id_list.length; i++) {
                 await baseModel.newGroupsUsers(group_id, user_id_list[i]);
@@ -55,9 +55,14 @@ class baseController {
     static async deleteExpenses(req, res) {
 
     }
-    static async getGroups(req, res) {
-        const groups = await baseModel.getGroups(req.session.user.id);
-        await sendMessage(res, groups);
+    static async getMyGroups(req, res) {
+        const groups = await baseModel.getMyGroups(req.session.user.id);
+        const group_users = await baseModel.getUsersOfGroup(groups);
+        await sendMessage(res, group_users);
+    }
+    static async setComment(req, res) {
+        await baseModel.addComment(req.session.user.id, req.params.expenseId, req.body.content)
+        await sendMessage(res);
     }
 }
 
