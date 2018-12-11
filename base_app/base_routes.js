@@ -161,7 +161,9 @@ router.get('/groups', baseAppController.getMyGroups);
  *  HTTP/1.1 200 OK
  *        "ok"
  */
-router.post('/expense/:expenseId/comment', baseAppController.setComment);
+// router.post('/expense/:expenseId/comment', baseAppController.setComment);
+
+
 
 
 

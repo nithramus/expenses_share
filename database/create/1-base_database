@@ -12,7 +12,7 @@ CREATE TABLE users(
     username VARCHAR(255),
     password TEXT
 );
-CREATE TABLE expense_comment (
+CREATE TABLE comments (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     expense_id INT,
     user_id INT,

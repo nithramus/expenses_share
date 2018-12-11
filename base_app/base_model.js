@@ -43,7 +43,7 @@ class baseModel {
     }
 
     static async getExpenses(user_id) {
-        let expenses = await knex.raw(`SELECT expenses.id, spender_id, expenses.group_id, amount, about, (SELECT GROUP_CONCAT(JSON_OBJECT('content', expense_comment.content, 'user_id', expense_comment.user_id)) FROM expense_comment WHERE expense_comment.expense_id = expenses.id) AS comments FROM expenses INNER JOIN groups_users ON groups_users.group_id = expenses.group_id WHERE groups_users.user_id = ${user_id}`);
+        let expenses = await knex.raw(`SELECT expenses.id, spender_id, expenses.group_id, amount, about, (SELECT GROUP_CONCAT(JSON_OBJECT('content', comments.content, 'user_id', comments.user_id)) FROM comments WHERE comments.expense_id = expenses.id) AS comments FROM expenses INNER JOIN groups_users ON groups_users.group_id = expenses.group_id WHERE groups_users.user_id = ${user_id}`);
         expenses = expenses[0];
         expenses.forEach(expense => {
             expense.comments = JSON.parse("[" + expense.comments + "]");
@@ -89,7 +89,7 @@ class baseModel {
     }
 
     static async addComment(user_id, expense_id, content) {
-        await knex('expense_comment').insert({
+        await knex('comments').insert({
             user_id,
             expense_id,
             content

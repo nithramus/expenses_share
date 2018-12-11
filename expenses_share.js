@@ -3,10 +3,74 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const fileUpload = require('express-fileupload');
 const RedisStore = require('connect-redis')(session);
-const simpleCrudRouter = require('simple_crud_router')
+const Crud = require('simple_crud_express')
 require('express-async-errors');
+const knex = require('./utils/knex.utils')
 
+const commentParams = [
+    { name: 'content', min: 1, max: 5000, type: 'string', needed: true }
+];
+const selectComment = [
+    'id',
+    'content',
+    'user_id',
+    'expense_id',
+    'created_at'
+]
 
+function isMaker(req, res, next) {
+    next();
+}
+
+const commentCrud = new Crud(knex,
+    'comment',
+    ['expense'],
+    commentParams,
+    selectComment,
+    [ isMaker ],
+    [],
+    {
+        add: function (req, itemsParams) {
+            itemsParams['user_id'] = req.session.user.id
+            return itemsParams;
+        },
+        put: function(req, whereParams) {
+            whereParams.user_id = req.session.user.id
+            return whereParams;
+        },
+        delete: function(req, whereParams) {
+            whereParams.user_id = req.session.user.id
+            return whereParams;
+        } 
+})
+
+const userParams = [
+    { name: 'username', min: 1, max: 200, type: 'string', needed: true },
+    { name: 'password', min: 1, max: 200, type: 'string', needed: true }
+];
+
+const userSelect = ['id', 'username'];
+
+const userCrud = new Crud(knex,
+    'user',
+    [],
+    userParams,
+    userSelect,
+    [],
+    [],
+    {
+        get: function(req, whereParams) {
+            return { id: req.session.user.id };
+        },
+        put: function(req, whereParams) {
+            return { id: req.session.user.id };
+        },
+        delete: function(req, whereParams) {
+            return { id: req.session.user.id };
+        }
+    }
+
+);
 
 const baseRouter = require('./base_app/base_routes');
 const app = express();
@@ -26,6 +90,8 @@ app.use(session({
 
 // app.use(usersMiddleware.isLogged);
 app.use('/', baseRouter);
+app.use('/', commentCrud.router)
+app.use('/', userCrud.router)
 // app.routes
 app.use(async(err, req, res, next) => {
     console.error(err.stack);
