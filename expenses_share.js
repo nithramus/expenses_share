@@ -3,10 +3,12 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const fileUpload = require('express-fileupload');
 const RedisStore = require('connect-redis')(session);
+const simpleCrudRouter = require('simple_crud_router')
 require('express-async-errors');
 
-const baseRouter = require('./base_app/base_routes');
 
+
+const baseRouter = require('./base_app/base_routes');
 const app = express();
 app.disable('x-powered-by');
 // app.use(express.static('./static'));
