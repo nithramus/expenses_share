@@ -103,6 +103,4 @@ app.use('*', async(req, res, next) => {
     await res.status(404).send({ status: 404, message: "Undefined road" });
 });
 
-  
-
 module.exports = app;

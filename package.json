@@ -6,7 +6,7 @@
     "title": "expenses share API",
     "url": "http://expenses_share.baptisteandre.com:3000"
   },
-  "main": "index.js",
+  "main": "index_expenses.js",
   "scripts": {
     "cron": "export $(cat .env-dev | xargs) && node database/cron/cron.js",
     "create_database": "export $(cat .env-dev | xargs) && ruby database/generate_database.rb",
@@ -14,14 +14,14 @@
     "delete_database": "export $(cat .env-dev | xargs) && ruby database/delete_database.rb",
     "reset_database": "npm run delete_database && npm run create_database",
     "downgrade": "export $(cat .env-dev | xargs) && ruby database/downgrade.rb",
-    "start": "export $(cat .env-dev | xargs) && nodemon index.js",
-    "start42": "export $(cat .env-dev | xargs) && ./node_modules/nodemon/bin/nodemon.js index.js",
+    "start": "export $(cat .env-dev | xargs) && nodemon index_expenses.js",
+    "start42": "export $(cat .env-dev | xargs) && ./node_modules/nodemon/bin/nodemon.js index_expenses.js",
     "kill_doc": "pkill -f 'node ./doc/doc.js'",
     "start_doc": "nohup node ./doc/doc.js > doc/doc_log.out &",
     "generate_doc": "apidoc -i base_app/ -o ./doc/static",
     "launch_doc": "npm run kill_doc && npm run generate_doc && npm run start_doc",
-    "killOld": "pkill -f 'node index.js'",
-    "launchNew": "export $(cat .env-prod | xargs) &&  nohup node index.js &",
+    "killOld": "pkill -f 'node index_expenses.js'",
+    "launchNew": "export $(cat .env-prod | xargs) &&  nohup node index_expenses.js &",
     "prod": "npm run launch_doc && npm run killOld && npm install && npm run launchNew",
     "test": "export $(cat .env-dev | xargs) && npm run reset_database && mocha "
   },
