@@ -1,0 +1,42 @@
+{
+  "name": "group",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "size": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "expenses": {
+      "type": "hasMany",
+      "model": "expense",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true,
+        "disableInclude": true
+      }
+    },
+    "groupUsers": {
+      "type": "hasMany",
+      "model": "group_user",
+      "foreignKey": "",
+      "options": {
+        "disableInclude": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    }
+  ],
+  "methods": {}
+}

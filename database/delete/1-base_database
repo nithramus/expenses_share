@@ -1,6 +1,0 @@
-use expenses_share;
-DROP TABLE expenses;
-DROP TABLE users;
-DROP TABLE comments;
-DROP TABLE groups_users;
-DROP TABLE groups;
