@@ -59,7 +59,7 @@ module.exports = function(Group) {
                 { arg: "expense", type:'object' },
                 {arg: 'groupId', type: "number"},
                 {arg: 'users', type: ['number']},
-        ]
+            ]
         }
     );
 

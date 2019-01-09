@@ -13,6 +13,9 @@
     "about": {
       "type": "string",
       "required": true
+    },
+    "date": {
+      "type": "Date"
     }
   },
   "validations": [],

@@ -50,5 +50,9 @@
   "group_user": {
     "dataSource": "mysql",
     "public": false
+  },
+  "CompleteUser": {
+    "dataSource": "mysql",
+    "public": true
   }
 }

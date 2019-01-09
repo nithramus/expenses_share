@@ -12,7 +12,7 @@ module.exports = function(app) {
     app.dataSources.mysql.autoupdate('group_user', function(err) {
         if (err) throw err
     });
-    app.dataSources.mysql.autoupdate('User', function(err) {
+    app.dataSources.mysql.autoupdate('CompleteUser', function(err) {
         if (err) throw err
     });
     app.dataSources.mysql.autoupdate('AccessToken', function(err) {
