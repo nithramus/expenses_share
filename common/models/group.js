@@ -54,7 +54,7 @@ module.exports = function(Group) {
                 // {arg: 'amount', type: "number", required: true},
                 // {arg: 'about', type: "string", required: true,  http: { source: 'query' }},
                 {arg: "options", type: "object", http: "optionsFromRequest"}
-            ],
+            ],  
             returns: [
                 { arg: "expense", type:'object' },
                 {arg: 'groupId', type: "number"},
